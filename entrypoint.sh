@@ -4,6 +4,8 @@ set -eo pipefail
 
 GODIR=/go/src/github.com/fac
 
+echo PWD is $PWD
+
 # Setup SSH KEY for private repo access
 echo "Setting up SSH key"
 mkdir -p /root/.ssh && chmod 700 /root/.ssh
@@ -19,9 +21,15 @@ ssh-keyscan github.com >> /root/.ssh/known_hosts
 
 # Allow terraform version override
 if [[ ! -z "$INPUT_TERRAFORM_VERSION" ]]; then
+  echo PWD is $PWD
   echo "terraform_version override set to $INPUT_TERRAFORM_VERSION"
   tfenv install "$INPUT_TERRAFORM_VERSION"
+  echo PWD is $PWD
+  echo TF version was
+  cat .terraform-version
   echo "$INPUT_TERRAFORM_VERSION" > .terraform-version
+  echo TF version is now
+  cat .terraform-version
   tfenv use "$INPUT_TERRAFORM_VERSION"
 else
   # Make sure we have the correct terraform version, if we have a .terraform-version file
