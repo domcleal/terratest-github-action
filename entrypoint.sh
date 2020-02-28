@@ -21,13 +21,13 @@ ssh-keyscan github.com >> /root/.ssh/known_hosts
 
 # Allow terraform version override
 if [[ ! -z "$INPUT_TERRAFORM_VERSION" ]]; then
+  echo TF version was
+  cat .terraform-version
+  echo "$INPUT_TERRAFORM_VERSION" > .terraform-version
   echo PWD is $PWD
   echo "terraform_version override set to $INPUT_TERRAFORM_VERSION"
   tfenv install "$INPUT_TERRAFORM_VERSION"
   echo PWD is $PWD
-  echo TF version was
-  cat .terraform-version
-  echo "$INPUT_TERRAFORM_VERSION" > .terraform-version
   echo TF version is now
   cat .terraform-version
   tfenv use "$INPUT_TERRAFORM_VERSION"
